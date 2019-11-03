@@ -63,7 +63,7 @@ export default {
     },
     mounted () {
         axios
-            .get('http://'+process.env.VUE_HOST+'/get_board_data?board='+this.board)
+            .get('http://'+process.env.VUE_APP_HOST+'/get_board_data?board='+this.board)
             .then(response => (this.values = response.data))
     },
     methods:{
