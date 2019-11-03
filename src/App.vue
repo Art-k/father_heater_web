@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <b-container fluid>
+
       <b-table
               striped
               hover
@@ -47,8 +48,9 @@
 export default {
   name: 'app',
   components: {
-    SensorBoard
-  },data () {
+      SensorBoard
+  },
+    data () {
         return {
             fields : [
                 { key: 'id', label: '#', sortable: true, sortDirection: 'desc' },
