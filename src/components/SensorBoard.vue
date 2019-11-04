@@ -2,7 +2,6 @@
   <div id="SensorBoard">
 
 
-
     <b-table
             striped
             hover
@@ -77,17 +76,14 @@
     import axios from 'axios'
     import BootstrapVue from 'bootstrap-vue'
     import { ButtonGroupPlugin } from 'bootstrap-vue'
-//    import { library } from '@fortawesome/fontawesome-svg-core'
-    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
     import 'bootstrap/dist/css/bootstrap.css'
     import 'bootstrap-vue/dist/bootstrap-vue.css'
 
+
     import Vue from 'vue'
     Vue.use(BootstrapVue);
     Vue.use(ButtonGroupPlugin);
-
-    Vue.component('font-awesome-icon', FontAwesomeIcon);
 
     Vue.config.productionTip = false;
 

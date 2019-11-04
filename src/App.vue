@@ -21,6 +21,7 @@
 
         <template v-slot:row-details="row">
           <b-card>
+            <BoardChart :board="row.item.board"/>
             <SensorBoard :board="row.item.board"/>
           </b-card>
         </template>
@@ -44,11 +45,13 @@
     Vue.use(ButtonGroupPlugin);
 
     import SensorBoard from './components/SensorBoard.vue'
+    import BoardChart from './components/BoardChart.vue'
 
 export default {
   name: 'app',
   components: {
-      SensorBoard
+      SensorBoard,
+      BoardChart
   },
     data () {
         return {
