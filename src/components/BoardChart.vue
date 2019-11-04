@@ -1,6 +1,6 @@
 <template>
   <div id="BoardChart">
-    {{ chartData }}
+    <!--{{ chartData }}-->
     <GChart
             type="LineChart"
             :data="chartData"
@@ -43,9 +43,8 @@ export default {
     data () {
       return {
           values: [],
-          chartData: [
-              ["Time", "Temperature", "Humidity", "Pressure", "Soil"]
-          ],
+          etalonchartData: [["Time", "Temperature", "Humidity", "Pressure", "Soil"]],
+          chartData:[],
           chartOptions: {
               chart: {
                   title: 'Company Performance',
@@ -55,15 +54,28 @@ export default {
       }
     },
     mounted () {
-        axios
+
+      axios
             .get('http://'+process.env.VUE_APP_HOST+'/get_board_data?board='+this.board)
             .then(response => (this.values = response.data));
+
+        axios
+            .get('http://'+process.env.VUE_APP_HOST+'/get_board_chart?board='+this.board)
+            .then(response => {
+//                response.data.Entity;
+                  for (let i=0; i<response.data.Entity.length; i++){
+                      response.data.Entity[i][0] = this.timestamp_to_datetime(response.data.Entity[i][0]);
+  //                    console.log(response.data.Entity[i])
+                  }
+                  this.chartData = this.etalonchartData.concat(response.data.Entity);
+                }
+            );
     },
     methods:{
         timestamp_to_datetime: function (timestamp){
             let DateObj = new Date(timestamp*1000);
             let result;
-            result = DateObj.getDate()+'.'+DateObj.getMonth()+'.'+DateObj.getFullYear()+' '+DateObj.getHours()+':'+DateObj.getMinutes()+':'+DateObj.getSeconds();
+            result = ( DateObj.getDate().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate() ) +'.'+DateObj.getMonth()+'.'+DateObj.getFullYear()+' '+DateObj.getHours()+':'+DateObj.getMinutes()+':'+DateObj.getSeconds();
             return result
         }
     }
