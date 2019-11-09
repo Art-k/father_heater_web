@@ -29,9 +29,6 @@
 
 
 
-
-
-
 export default {
   name: 'BoardChart',
   components: {
@@ -43,7 +40,7 @@ export default {
     data () {
       return {
           values: [],
-          etalonchartData: [["Time", "Temperature", "Humidity", "Pressure", "Soil"]],
+          etalonchartData: [["Time", "Value"]],
           chartData:[],
           chartOptions: {
               chart: {
@@ -55,28 +52,41 @@ export default {
     },
     mounted () {
 
-      axios
-            .get('http://'+process.env.VUE_APP_HOST+'/get_board_data?board='+this.board)
-            .then(response => (this.values = response.data));
+//        axios
+//              .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
+//              .then(response => (this.values = response.data));
 
         axios
-            .get('http://'+process.env.VUE_APP_HOST+'/get_board_chart?board='+this.board)
+            .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
             .then(response => {
-//                response.data.Entity;
-                  for (let i=0; i<response.data.Entity.length; i++){
-                      response.data.Entity[i][0] = this.timestamp_to_datetime(response.data.Entity[i][0]);
-  //                    console.log(response.data.Entity[i])
+//                console.log(response.data.entity);
+                let array = [];
+                  for (let i=0; i < response.data.entity.length; i++){
+                      response.data.entity[i]['CreatedAt'] = this.ISO_to_datetime(response.data.entity[i]['CreatedAt']);
+//                      console.log(response.data.entity[i]);
+                      array.push([response.data.entity[i]['CreatedAt'], response.data.entity[i]['Value']])
                   }
-                  this.chartData = this.etalonchartData.concat(response.data.Entity);
+                  this.chartData = this.etalonchartData.concat(array);
                 }
             );
     },
     methods:{
-        timestamp_to_datetime: function (timestamp){
-            let DateObj = new Date(timestamp*1000);
-            let result;
-            result = ( DateObj.getDate().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate() ) +'.'+DateObj.getMonth()+'.'+DateObj.getFullYear()+' '+DateObj.getHours()+':'+DateObj.getMinutes()+':'+DateObj.getSeconds();
-            return result
+//        timestamp_to_datetime: function (timestamp){
+//            let DateObj = new Date(timestamp*1000);
+//            let result;
+//            result = ( DateObj.getDate().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate() ) +'.'+DateObj.getMonth()+'.'+DateObj.getFullYear()+' '+DateObj.getHours()+':'+DateObj.getMinutes()+':'+DateObj.getSeconds();
+//            return result
+//        },
+        ISO_to_datetime: function (timestamp){
+            let DateObj = new Date(timestamp);
+            let Day = DateObj.getDate().toString().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate();
+            let Month = DateObj.getMonth().toString().length === 2 ? DateObj.getMonth() : '0'+DateObj.getMonth();
+            let Year = DateObj.getFullYear();
+            let Hours = DateObj.getHours().toString().length === 2 ? DateObj.getHours() : '0'+DateObj.getHours();
+            let Minutes = DateObj.getMinutes().toString().length === 2 ? DateObj.getMinutes() : '0'+DateObj.getMinutes();
+            let Seconds = DateObj.getSeconds().toString().length === 2 ? DateObj.getSeconds() : '0'+DateObj.getSeconds();
+            return Day+'.'+Month+'.'+Year+' '+Hours+':'+Minutes+':'+Seconds;
+
         }
     }
 }

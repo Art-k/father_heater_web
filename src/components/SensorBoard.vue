@@ -1,13 +1,12 @@
 <template>
   <div id="SensorBoard">
 
-
     <b-table
             striped
             hover
             small
             sticky-header
-            :items="values.Entity"
+            :items="values.entity"
             :fields="fields"
             :current-page="currentPage"
             :per-page="perPage"
@@ -22,29 +21,32 @@
       </template>
 
 
-      <template v-slot:cell(timestamp)="row">
-        {{ timestamp_to_datetime(row.item.timestamp) }}
+      <template v-slot:cell(CreatedAt)="row">
+        {{ ISO_to_datetime(row.item.CreatedAt) }}
       </template>
 
-      <template v-slot:cell(temperature)="row">
-        {{ row.item.temperature}} &#8451;
+      <template v-slot:cell(Type)="row">
+        {{ row.item.Type}}
+        <!--&#8451;-->
       </template>
 
-      <template v-slot:cell(humidity)="row">
-        {{ row.item.humidity }} %
+      <template v-slot:cell(Value)="row">
+        {{ row.item.Value }}
       </template>
 
 
     </b-table>
-    <b-row>
-      <b-col sm="5" md="6" class="my-1">
+
+
+    <b-row >
+      <b-col sm="3" md="3" class="my-1">
         <b-form-group
                 label="Per page"
                 label-cols-sm="6"
                 label-cols-md="4"
                 label-cols-lg="3"
                 label-align-sm="right"
-                label-size="s"
+                label-size="sm"
                 label-for="perPageSelect"
                 class="mb-0"
         >
@@ -53,14 +55,15 @@
                   id="perPageSelect"
                   size="sm"
                   :options="pageOptions"
-          ></b-form-select>
+          >
+          </b-form-select>
         </b-form-group>
       </b-col>
 
-      <b-col sm="7" md="6" class="my-1">
+      <b-col sm="3" md="2" class="my-1">
         <b-pagination
                 v-model="currentPage"
-                :total-rows="values.Total"
+                :total-rows="values.total"
                 :per-page="perPage"
                 align="fill"
                 size="sm"
@@ -96,12 +99,11 @@ export default {
       return {
           isBusy: false,
           fields : [
-              { key: 'id', label: '#', sortable: true, sortDirection: 'desc' },
-              { key: 'timestamp', label: 'Date Time', sortable: true},
-              { key: 'temperature', label: 'Temperature', sortable: true},
-              { key: 'humidity', label: 'Humidity', sortable: true},
-              { key: 'pressure', label: 'Pressure', sortable: true},
-              { key: 'soil', label: 'Soil', sortable: true},
+              { key: 'ID', label: '#', sortable: true, sortDirection: 'desc' },
+              { key: 'CreatedAt', label: 'Added', sortable: true},
+              { key: 'Type', label: 'Type', sortable: true},
+              { key: 'Value', label: 'Value', sortable: true},
+              { key: 'Unit', label: 'Unit', sortable: true}
           ],
           values: [],
           currentPage:1,
@@ -112,7 +114,7 @@ export default {
     mounted () {
         this.isBusy = true;
         axios
-            .get('http://'+process.env.VUE_APP_HOST+'/get_board_data?board='+this.board)
+            .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
             .then(response => (this.values = response.data));
         this.isBusy = false;
     },
@@ -122,6 +124,17 @@ export default {
             let result;
             result = DateObj.getDate()+'.'+DateObj.getMonth()+'.'+DateObj.getFullYear()+' '+DateObj.getHours()+':'+DateObj.getMinutes()+':'+DateObj.getSeconds();
             return result
+        },
+        ISO_to_datetime: function (timestamp){
+            let DateObj = new Date(timestamp);
+            let Day = DateObj.getDate().toString().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate();
+            let Month = DateObj.getMonth().toString().length === 2 ? DateObj.getMonth() : '0'+DateObj.getMonth();
+            let Year = DateObj.getFullYear();
+            let Hours = DateObj.getHours().toString().length === 2 ? DateObj.getHours() : '0'+DateObj.getHours();
+            let Minutes = DateObj.getMinutes().toString().length === 2 ? DateObj.getMinutes() : '0'+DateObj.getMinutes();
+            let Seconds = DateObj.getSeconds().toString().length === 2 ? DateObj.getSeconds() : '0'+DateObj.getSeconds();
+            return Day+'.'+Month+'.'+Year+' '+Hours+':'+Minutes+':'+Seconds;
+
         }
     }
 }

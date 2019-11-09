@@ -19,7 +19,8 @@
     "core-js": "^3.3.2",
     "jquery": "^3.4.1",
     "vue": "^2.6.10",
-    "vue-google-charts": "^0.3.2"
+    "vue-google-charts": "^0.3.2",
+    "vue-ionicons": "^3.0.4"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.0.0",
