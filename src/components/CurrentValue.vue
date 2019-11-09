@@ -39,7 +39,7 @@ export default {
     mounted () {
 
         axios
-              .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensor_types?mac='+this.board)
+              .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensor_types?mac='+this.board)
               .then(response => (this.sensorTypes = response.data.entity));
     },
     methods:{

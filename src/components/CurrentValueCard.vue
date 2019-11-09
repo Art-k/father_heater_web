@@ -97,7 +97,7 @@ export default {
         },
         fetchDataFromServer: function () {
             axios
-                .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board+'&type='+this.sensorType+'&last=1')
+                .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board+'&type='+this.sensorType+'&last=1')
                 .then(response => (this.Value = response.data.entity[0]));
 
             if(this.Value['Value'] == 1) {

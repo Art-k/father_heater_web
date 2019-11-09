@@ -114,7 +114,7 @@ export default {
     mounted () {
         this.isBusy = true;
         axios
-            .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
             .then(response => (this.values = response.data));
         this.isBusy = false;
     },

@@ -53,11 +53,11 @@ export default {
     mounted () {
 
 //        axios
-//              .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
+//              .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
 //              .then(response => (this.values = response.data));
 
         axios
-            .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
             .then(response => {
 //                console.log(response.data.entity);
                 let array = [];

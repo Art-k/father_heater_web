@@ -94,11 +94,11 @@ export default {
     },
     mounted () {
         axios
-            .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/get_boards')
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/get_boards')
             .then(response => (this.boards = response.data));
 
         axios
-            .get('http://'+process.env.VUE_APP_HOST+':'+process.env.VUE_APP_PORT1+'/sensor_types')
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensor_types')
             .then(response => (this.dataTypeOptions = response.data.entity))
     },
     methods:{
