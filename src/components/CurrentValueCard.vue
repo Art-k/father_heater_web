@@ -68,14 +68,14 @@ export default {
       }
     },
     created() {
-        this.timer = setInterval(this.fetchDataFromServer, 1000)
+//        this.timer = setInterval(this.fetchDataFromServer, 1000)
     },
     mounted () {
       this.fetchDataFromServer()
     },
     methods:{
         switchRelay: function() {
-            let url = 'http://' + process.env.VUE_APP_HOST + ':' + process.env.VUE_APP_PORT1 + '/todo';
+            let url = 'http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/todo';
             let data = {
                 mac : "5c:cf:7f:2f:60:0d",
                 command : "RELAY",
