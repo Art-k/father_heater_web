@@ -119,12 +119,6 @@ export default {
 		new_mac : '',
 		new_name : '',
 		new_description : '',
-		hexTokens: {
-			F: {
-				pattern: /[0-9a-fA-F]/,
-				transform: v => v.toLocaleUpperCase()
-				}
-			}
 		}
 	},
 	mounted () {
