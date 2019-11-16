@@ -3,60 +3,6 @@
 
 		<b-card no-body>
 			<b-tabs>
-				<b-tab title="Edit">
-					<div>
-						<b-card>
-							<b-form @submit="PatchBoardOnSubmit" @reset="PatchBoardOnReset">
-								<b-form-group
-										id="input-group-1"
-										label="MAC:"
-										label-for="mac"
-										description="mac address of the board."
-								>
-									<b-form-input
-											id="mac"
-											v-model="board"
-											type="text"
-											required
-											placeholder="Enter Mac"
-									></b-form-input>
-								</b-form-group>
-
-								<!--<b-form-group id="input-group-2" label="Your Name:" label-for="input-2">-->
-									<!--<b-form-input-->
-											<!--id="input-2"-->
-											<!--v-model="form.name"-->
-											<!--required-->
-											<!--placeholder="Enter name"-->
-									<!--&gt;</b-form-input>-->
-								<!--</b-form-group>-->
-
-								<!--<b-form-group id="input-group-3" label="Food:" label-for="input-3">-->
-									<!--<b-form-select-->
-											<!--id="input-3"-->
-											<!--v-model="form.food"-->
-											<!--:options="foods"-->
-											<!--required-->
-									<!--&gt;</b-form-select>-->
-								<!--</b-form-group>-->
-
-								<!--<b-form-group id="input-group-4">-->
-									<!--<b-form-checkbox-group v-model="form.checked" id="checkboxes-4">-->
-										<!--<b-form-checkbox value="me">Check me out</b-form-checkbox>-->
-										<!--<b-form-checkbox value="that">Check that out</b-form-checkbox>-->
-									<!--</b-form-checkbox-group>-->
-								<!--</b-form-group>-->
-
-								<!--<b-button type="submit" variant="primary">Submit</b-button>-->
-								<!--<b-button type="reset" variant="danger">Reset</b-button>-->
-							</b-form>
-						</b-card>
-						<!--<b-card class="mt-3" header="Form Data Result">-->
-							<!--<pre class="m-0">{{ form }}</pre>-->
-						<!--</b-card>-->
-					</div>
-
-				</b-tab>
 				<b-tab title="To Do" active>
 					<b-table
 						striped
@@ -129,7 +75,7 @@
 
 
 				</b-tab>
-				<b-tab title="Log">
+				<b-tab title="To Do Log">
 
 					<b-table
 						striped
@@ -207,6 +153,163 @@
 							>
 							</b-pagination>
 						</b-col>
+
+						<b-col>
+
+						</b-col>
+					</b-row>
+				</b-tab>
+				<b-tab title="Settings">
+
+					<b-table
+							striped
+							hover
+							small
+							sticky-header
+							:items="BoardSettings.entity"
+							:fields="BoardSettingsFields"
+							:current-page="BoardSettingscurrentPage"
+							:per-page="BoardSettingsperPage"
+							:busy="isBusyBoardSettings"
+					>
+
+						<template v-slot:table-busy>
+							<div class="text-center text-danger my-2">
+								<b-spinner class="align-middle"></b-spinner>
+								<strong>Loading...</strong>
+							</div>
+						</template>
+
+						<template v-slot:cell(CreatedAt)="row">
+							{{ ISO_to_datetime(row.item.CreatedAt) }}
+						</template>
+
+						<template v-slot:cell(SensorType)="row">
+							{{ row.item.SensorType}}
+							<!--&#8451;-->
+						</template>
+
+						<template v-slot:cell(Sense)="row">
+							{{ row.item.Sense }}
+						</template>
+
+						<template v-slot:cell(Pin)="row">
+							{{ row.item.Pin }}
+						</template>
+
+						<template v-slot:cell(Interval)="row">
+							{{ row.item.Interval }}
+						</template>
+
+						<template v-slot:cell(actions)="row">
+							<b-button v-b-modal.delete_setting_record_confirmation variant="outline-danger" size="sm" style="width: 33px">
+								X
+								<b-modal id="delete_setting_record_confirmation" title="WARNING !!!" @ok="settings_delete(row.item.ID)">
+
+								</b-modal>
+							</b-button>
+						</template>
+
+					</b-table>
+
+
+					<b-row>
+						<b-col sm="3" md="3">
+							<b-form-group
+									label="Per page"
+									label-cols-sm="6"
+									label-cols-md="4"
+									label-cols-lg="3"
+									label-align-sm="right"
+									label-size="sm"
+									label-for="perPageSelect"
+									class="mb-0"
+							>
+								<b-form-select
+										v-model="BoardSettingsperPage"
+										id="perPageSelect"
+										size="sm"
+										:options="BoardSettingspageOptions"
+								>
+								</b-form-select>
+							</b-form-group>
+						</b-col>
+
+						<b-col sm="3" md="3">
+							<b-pagination
+									v-model="BoardSettingscurrentPage"
+									:total-rows="BoardSettings.total"
+									:per-page="BoardSettingsperPage"
+									align="fill"
+									size="sm"
+									class="my-0"
+							>
+							</b-pagination>
+						</b-col>
+
+						<b-col sm="3" md="3">
+							<b-button v-b-modal.add_settings variant="success">Add Settings</b-button>
+
+							<b-modal id="add_settings" title="Set Settings" @ok="post_settings">
+
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="MAC">
+									<b-form-input id="new_mac" v-model="board" placeholder="Enter Mac Adress"></b-form-input>
+								</b-form-group>
+
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Type">
+									<b-form-select
+											v-model="CurrentBoardSettingsType"
+											id="BoardSettingsTypesId"
+											size="sm"
+											:options="BoardSettingsTypes"
+									>
+									</b-form-select>
+								</b-form-group>
+
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Sense">
+									<b-form-select
+											v-model="CurrentBoardSettingsSense"
+											id="SenseTypesId"
+											size="sm"
+											:options="CurrentBoardSettingsSenses"
+									>
+									</b-form-select>
+								</b-form-group>
+
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Pin">
+									<b-form-input id="PinId" v-model="CurrentBoardSettings['Pin']" placeholder="Enter Pin"></b-form-input>
+								</b-form-group>
+
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Interval (ms)">
+									<b-form-input id="IntervalId" v-model="CurrentBoardSettings['Interval']" placeholder="Enter Interval"></b-form-input>
+								</b-form-group>
+
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Interval (ms)">
+									<b-form-input id="DeltaId" v-model="CurrentBoardSettings['Delta']" placeholder="Enter Delta"></b-form-input>
+								</b-form-group>
+
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Default Value">
+									<b-form-select
+											v-model="CurrentBoardSettingsDefault"
+											id="DefaultStateId"
+											size="sm"
+											:options="CurrentBoardSettingsDefaults"
+									>
+									</b-form-select>
+								</b-form-group>
+
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Aditional JSON" label-for="input-sm">
+									<b-form-textarea
+											id="textarea"
+											v-model="CurrentBoardSettings['AditionalParameters']"
+											placeholder="Enter something..."
+											rows="3"
+											max-rows="6"
+									></b-form-textarea>
+								</b-form-group>
+
+							</b-modal>
+						</b-col>
 					</b-row>
 				</b-tab>
 			</b-tabs>
@@ -268,13 +371,17 @@
 				todolog: [],
 
 				isBusyBoardSettings: false,
-				BoardSettingsField : [
+				BoardSettingsFields : [
 						{ key: 'ID', label: '#', sortable: true, sortDirection: 'desc' },
 						{ key: 'CreatedAt', label: 'Added', sortable: true},
-						{ key: 'Command', label: 'Command', sortable: true},
-						{ key: 'SubCommand', label: 'Sub Command', sortable: true},
-						{ key: 'CommandDone', label: 'Command Done', sortable: true},
-						{ key: 'CommandStatus', label: 'Command Status', sortable: true}
+						{ key: 'SensorType', label: 'SensorType', sortable: true},
+						{ key: 'Sense', label: 'Sense', sortable: true},
+						{ key: 'Pin', label: 'Pin', sortable: true},
+						{ key: 'Interval', label: 'Interval', sortable: true},
+						{ key: 'Delta', label: 'Delta', sortable: true},
+						{ key: 'Default', label: 'Default', sortable: true},
+						{ key: 'AdditionalParameters', label: 'AdditionalParameters', sortable: true},
+						{ key: 'actions', label: 'Actions'}
 					],
 				BoardSettings: [],
 
@@ -290,29 +397,97 @@
 				perPagetodolog:30,
 				pageOptionstodolog: [5, 10, 15, 30],
 
-				currentPageBoardSettings:1,
-				perPageBoardSettings:30,
-				pageOptionsBoardSettings: [5, 10, 15, 30]
+				BoardSettingscurrentPage:1,
+				BoardSettingsperPage:30,
+				BoardSettingspageOptions: [5, 10, 15, 30],
+
+				BoardSettingsTypes: ['DHT11', 'RELAY'],
+				BoardSettingsType: 'DHT11',
+
+				CurrentBoardSettingsType:'',
+				CurrentSenseTypes: [],
+				CurrentBoardSettingsSense:'',
+				CurrentBoardSettingsSenses: [],
+				CurrentBoardSettingsDefault: '',
+				CurrentBoardSettingsDefaults: [],
+
+				CurrentBoardSettings : {
+					Pin : '',
+					Interval : 0,
+					Delta : 0,
+					Default : '',
+					AdditionalParameter : ''
+				},
+				SenseSettings: {
+					'DHT11' : {
+						SenseTypes : ['temperature', 'humidity'],
+						DefaulState : '',
+						SelectedSatte : 'temperature',
+						PossibleValues : []
+					},
+					'RELAY' : {
+						SenseTypes: ['relay'],
+						DefaulState: 'on',
+						SelectedSatte : 'relay',
+						PossibleValues : ['on', 'off']
+					}
+				}
+			}
+		},
+		watch : {
+			CurrentBoardSettingsType: function(){
+				this.CurrentBoardSettingsSenses = this.SenseSettings[this.CurrentBoardSettingsType]['SenseTypes'];
+				this.CurrentBoardSettingsDefaults = this.SenseSettings[this.CurrentBoardSettingsType]['PossibleValues'];
 			}
 		},
 		mounted () {
-//			this.isBusy = true;
+			this.getBoardSettings();
+			this.getSensoData();
+			this.getCurrentToDo();
+			this.getToDoLog();
 
-			axios
-				.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_SENSOR_DATA_END_POINT + '?mac='+this.board)
-				.then(response => (this.values = response.data));
-
-			axios
-				.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_TODO_END_POINT + '?mac=' + this.board)
-				.then(response => (this.todos = response.data));
-
-			axios
-				.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_TODO_END_POINT + '?mac=' + this.board+'&command_done=1')
-				.then(response => (this.todolog = response.data));
-
-//			this.isBusy = false;
 		},
 		methods:{
+			settings_delete: function(id){
+
+				axios
+					.delete(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/board_settings' + '?id='+id);
+
+				this.getBoardSettings()
+			},
+			getSensoData: function(){
+				this.isBusy = true;
+				axios
+					.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_SENSOR_DATA_END_POINT + '?mac='+this.board)
+					.then(response => (this.values = response.data));
+				this.isBusy = false;
+			},
+			getCurrentToDo: function(){
+				axios
+					.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_TODO_END_POINT + '?mac=' + this.board)
+					.then(response => (this.todos = response.data));
+			},
+			getToDoLog: function(){
+				axios
+					.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_TODO_END_POINT + '?mac=' + this.board+'&command_done=1')
+					.then(response => (this.todolog = response.data));
+			},
+			getBoardSettings: function(){
+//				console.log('Try to get board settings');
+//				console.log(process.env.VUE_APP_BOARD_SETTINGS_END_POINT);
+				let url = process.env.VUE_APP_PROTOCOL +
+					process.env.VUE_APP_HOST +
+					process.env.VUE_APP_PORT1 +
+					'/board_settings' +
+					'?mac=' + this.board;
+
+//				console.log(url);
+
+				axios
+					.get(url)
+					.then(response => (this.BoardSettings = response.data));
+
+			},
 			timestamp_to_datetime: function (timestamp){
 				let DateObj = new Date(timestamp*1000);
 				let result;
@@ -325,6 +500,40 @@
 			PatchBoardOnReset: function (){
 				console.log('Reset patch for board data')
 			},
+
+			post_settings: function (){
+				console.log('Post board settings');
+				let url = process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/board_settings';
+
+//				let Pin;
+//				const tmpPin = parseInt(this.CurrentBoardSettings['Pin'], 10);
+//				if (isNaN(tmpPin)) { Pin = -1 }else{Pin = tmpPin}
+
+				let Interval;
+				const tmpInterval = parseInt(this.CurrentBoardSettings['Interval'], 10);
+				if (isNaN(tmpInterval)) { Interval = -1 }else{Interval = tmpInterval}
+
+				let Delta;
+				const tmpDelta = parseInt(this.CurrentBoardSettings['Delta'], 10);
+				if (isNaN(tmpDelta)) { Delta = -1 }else{Delta = tmpDelta}
+
+				let data = {
+					Mac: this.board,
+					SensorType: this.CurrentBoardSettingsType,
+					Sense : this.CurrentBoardSettingsSense,
+					Pin : this.CurrentBoardSettings['Pin'],
+					Interval: Interval,
+					Delta: Delta,
+					Default: this.CurrentBoardSettingsDefault,
+					AdditionalParameters: this.CurrentBoardSettings['AdditionalParameter']
+				};
+				console.log(url);
+				console.log(data);
+				axios.post(url, data);
+
+				this.getBoardSettings();
+			},
+
 			ISO_to_datetime: function (timestamp){
 				let DateObj = new Date(timestamp);
 				let Day = DateObj.getDate().toString().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate();
@@ -333,7 +542,7 @@
 				let Hours = DateObj.getHours().toString().length === 2 ? DateObj.getHours() : '0'+DateObj.getHours();
 				let Minutes = DateObj.getMinutes().toString().length === 2 ? DateObj.getMinutes() : '0'+DateObj.getMinutes();
 				let Seconds = DateObj.getSeconds().toString().length === 2 ? DateObj.getSeconds() : '0'+DateObj.getSeconds();
-			return Day+'.'+Month+'.'+Year+' '+Hours+':'+Minutes+':'+Seconds;
+				return Day+'.'+Month+'.'+Year+' '+Hours+':'+Minutes+':'+Seconds;
 			}
 		}
 	}
