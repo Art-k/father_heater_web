@@ -301,7 +301,7 @@
 								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Aditional JSON" label-for="input-sm">
 									<b-form-textarea
 											id="textarea"
-											v-model="CurrentBoardSettings['AditionalParameters']"
+											v-model="CurrentBoardSettings['AdditionalParameter']"
 											placeholder="Enter something..."
 											rows="3"
 											max-rows="6"
