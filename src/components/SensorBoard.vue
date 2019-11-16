@@ -3,10 +3,10 @@
 
 		<b-card no-body>
 			<b-tabs>
-				<b-tab title="Edit" active>
+				<b-tab title="Edit">
 					<div>
 						<b-card>
-							<b-form @submit="onSubmit" @reset="onReset">
+							<b-form @submit="PatchBoardOnSubmit" @reset="PatchBoardOnReset">
 								<b-form-group
 										id="input-group-1"
 										label="MAC:"
@@ -57,7 +57,6 @@
 					</div>
 
 				</b-tab>
-
 				<b-tab title="To Do" active>
 					<b-table
 						striped
@@ -91,6 +90,44 @@
 						</template>
 
 					</b-table>
+
+					<b-row>
+						<b-col sm="3" md="3" class="my-1">
+							<b-form-group
+									label="Per page"
+									label-cols-sm="6"
+									label-cols-md="4"
+									label-cols-lg="3"
+									label-align-sm="right"
+									label-size="sm"
+									label-for="perPageSelect"
+									class="mb-0"
+							>
+								<b-form-select
+										v-model="perPagetodo"
+										id="perPageSelect"
+										size="sm"
+										:options="pageOptionstodo"
+								>
+								</b-form-select>
+							</b-form-group>
+						</b-col>
+
+						<b-col sm="3" md="2" class="my-1">
+							<b-pagination
+									v-model="currentPagetodo"
+									:total-rows="todos.total"
+									:per-page="perPagetodo"
+									align="fill"
+									size="sm"
+									class="my-0"
+							>
+							</b-pagination>
+						</b-col>
+					</b-row>
+
+
+
 				</b-tab>
 				<b-tab title="Log">
 
@@ -99,11 +136,11 @@
 						hover
 						small
 						sticky-header
-						:items="values.entity"
-						:fields="fields"
-						:current-page="currentPage"
-						:per-page="perPage"
-						:busy="isBusy"
+						:items="todolog.entity"
+						:fields="todofieldslog"
+						:current-page="currentPagetodolog"
+						:per-page="perPagetodolog"
+						:busy="isBusytodolog"
 						>
 
 						<template v-slot:table-busy>
@@ -117,14 +154,23 @@
 						{{ ISO_to_datetime(row.item.CreatedAt) }}
 						</template>
 
-						<template v-slot:cell(Type)="row">
-						{{ row.item.Type}}
+						<template v-slot:cell(Command)="row">
+						{{ row.item.Command}}
 						<!--&#8451;-->
 						</template>
 
-						<template v-slot:cell(Value)="row">
-						{{ row.item.Value }}
+						<template v-slot:cell(SubCommand)="row">
+						{{ row.item.SubCommand }}
 						</template>
+
+						<template v-slot:cell(CommandDone)="row">
+						{{ row.item.CommandDone }}
+						</template>
+
+						<template v-slot:cell(CommandStatus)="row">
+						{{ row.item.CommandStatus }}
+						</template>
+
 					</b-table>
 
 
@@ -141,10 +187,10 @@
 								class="mb-0"
 								>
 								<b-form-select
-									v-model="perPage"
+									v-model="perPagetodolog"
 									id="perPageSelect"
 									size="sm"
-									:options="pageOptions"
+									:options="pageOptionstodolog"
 									>
 								</b-form-select>
 							</b-form-group>
@@ -152,9 +198,9 @@
 
 						<b-col sm="3" md="2" class="my-1">
 							<b-pagination
-								v-model="currentPage"
-								:total-rows="values.total"
-								:per-page="perPage"
+								v-model="currentPagetodolog"
+								:total-rows="todolog.total"
+								:per-page="perPagetodolog"
 								align="fill"
 								size="sm"
 								class="my-0"
@@ -190,6 +236,7 @@
 		data () {
 			return {
 				isBusy: false,
+
 				fields : [
 						{ key: 'ID', label: '#', sortable: true, sortDirection: 'desc' },
 						{ key: 'CreatedAt', label: 'Added', sortable: true},
@@ -198,38 +245,72 @@
 						{ key: 'Unit', label: 'Unit', sortable: true}
 					],
 				values: [],
+
+				isBusytodo: false,
 				todofields : [
 						{ key: 'ID', label: '#', sortable: true, sortDirection: 'desc' },
 						{ key: 'CreatedAt', label: 'Added', sortable: true},
 						{ key: 'Command', label: 'Command', sortable: true},
-						{ key: 'SubCommand', label: 'SubCommand', sortable: true},
+						{ key: 'SubCommand', label: 'Sub Command', sortable: true},
 						{ key: 'Unit', label: 'Unit', sortable: true}
 					],
 				todos: [],
+
+				isBusytodolog: false,
+				todofieldslog : [
+						{ key: 'ID', label: '#', sortable: true, sortDirection: 'desc' },
+						{ key: 'CreatedAt', label: 'Added', sortable: true},
+						{ key: 'Command', label: 'Command', sortable: true},
+						{ key: 'SubCommand', label: 'Sub Command', sortable: true},
+						{ key: 'CommandDone', label: 'Command Done', sortable: true},
+						{ key: 'CommandStatus', label: 'Command Status', sortable: true}
+					],
+				todolog: [],
+
+				isBusyBoardSettings: false,
+				BoardSettingsField : [
+						{ key: 'ID', label: '#', sortable: true, sortDirection: 'desc' },
+						{ key: 'CreatedAt', label: 'Added', sortable: true},
+						{ key: 'Command', label: 'Command', sortable: true},
+						{ key: 'SubCommand', label: 'Sub Command', sortable: true},
+						{ key: 'CommandDone', label: 'Command Done', sortable: true},
+						{ key: 'CommandStatus', label: 'Command Status', sortable: true}
+					],
+				BoardSettings: [],
+
 				currentPage:1,
 				perPage:30,
-				pageOptions: [5, 10, 15],
+				pageOptions: [5, 10, 15, 30],
+
 				currentPagetodo:1,
 				perPagetodo:30,
-				pageOptionstodo: [5, 10, 15]
+				pageOptionstodo: [5, 10, 15, 30],
+
+				currentPagetodolog:1,
+				perPagetodolog:30,
+				pageOptionstodolog: [5, 10, 15, 30],
+
+				currentPageBoardSettings:1,
+				perPageBoardSettings:30,
+				pageOptionsBoardSettings: [5, 10, 15, 30]
 			}
 		},
 		mounted () {
-			this.isBusy = true;
+//			this.isBusy = true;
 
 			axios
-				.get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
+				.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_SENSOR_DATA_END_POINT + '?mac='+this.board)
 				.then(response => (this.values = response.data));
 
-//			axios
-//				.get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
-//				.then(response => (this.values = response.data));
-
 			axios
-				.get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/todo?mac='+this.board)
+				.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_TODO_END_POINT + '?mac=' + this.board)
 				.then(response => (this.todos = response.data));
 
-			this.isBusy = false;
+			axios
+				.get(process.env.VUE_APP_PROTOCOL + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_TODO_END_POINT + '?mac=' + this.board+'&command_done=1')
+				.then(response => (this.todolog = response.data));
+
+//			this.isBusy = false;
 		},
 		methods:{
 			timestamp_to_datetime: function (timestamp){
@@ -237,6 +318,12 @@
 				let result;
 				result = DateObj.getDate()+'.'+DateObj.getMonth()+'.'+DateObj.getFullYear()+' '+DateObj.getHours()+':'+DateObj.getMinutes()+':'+DateObj.getSeconds();
 			return result
+			},
+			PatchBoardOnSubmit: function (){
+				console.log('Submit patch for board data')
+			},
+			PatchBoardOnReset: function (){
+				console.log('Reset patch for board data')
 			},
 			ISO_to_datetime: function (timestamp){
 				let DateObj = new Date(timestamp);

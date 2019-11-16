@@ -15,7 +15,7 @@
 
         <b-tab title="Details">
 
-          <b-button v-b-modal.add_board>Launch demo modal</b-button>
+          <b-button v-b-modal.add_board variant="success">Add Board</b-button>
 
           <b-modal id="add_board" title="Add new BOARD" @ok="post_board">
 
@@ -141,7 +141,7 @@ export default {
         return result
         },
       post_board: function (){
-		let url = 'http://'+process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_BOARDS_END_POINT;
+		let url = process.env.VUE_APP_PROTOCOL+process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_BOARDS_END_POINT;
 		let data = {
 			mac : this.new_mac,
 			name : this.new_name,
