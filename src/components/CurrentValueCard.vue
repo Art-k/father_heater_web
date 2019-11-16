@@ -68,7 +68,7 @@ export default {
       }
     },
     created() {
-//        this.timer = setInterval(this.fetchDataFromServer, 1000)
+        this.timer = setInterval(this.fetchDataFromServer, 1000)
     },
     mounted () {
       this.fetchDataFromServer()
