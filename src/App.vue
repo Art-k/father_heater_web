@@ -131,7 +131,7 @@ export default {
 		this.get_boards();
 
 		axios
-			.get('http://'+process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1+VUE_APP_SENSOR_TYPES_END_POINT)
+			.get('http://'+process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_SENSOR_TYPES_END_POINT)
 			.then(response => (this.dataTypeOptions = response.data.entity))
 		},
 	methods:{
