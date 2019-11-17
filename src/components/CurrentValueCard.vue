@@ -39,7 +39,7 @@
         <h2 ><MdThermometerIcon></MdThermometerIcon>{{ Value.Value }} &#8451;</h2>
       </b-card-text>
 
-      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }} </b-card-footer>
+      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }} </b-card-footer>
 
     </b-card>
 
