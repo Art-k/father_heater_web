@@ -7,7 +7,6 @@
             :title="SensorType"
             align="center"
             text-variant="white"
-            v-on:click="switchRelay"
     >
       <b-card-text>
         <h2 v-if="SensorType == 'Relay' && Value.Value==1">TURN ON</h2>
@@ -17,6 +16,8 @@
                        color="#82C7EB"
                        :sync="false"
                        :labels="true"
+                       height="44"
+                       width="100"
                        @change="switchRelay"
         >
         </toggle-button>
