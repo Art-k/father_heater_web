@@ -15,7 +15,7 @@
 
         <toggle-button :value="Value.Value"
                        color="#82C7EB"
-                       :sync="true"
+                       :sync="false"
                        :labels="true"
                        @change="switchRelay"
         >
