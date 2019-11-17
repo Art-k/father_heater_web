@@ -147,7 +147,7 @@ export default {
 	},
 	mounted () {
 		this.get_boards();
-
+        this.get_unknown_boards()
 		axios
 			.get('http://'+process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + process.env.VUE_APP_SENSOR_TYPES_END_POINT)
 			.then(response => (this.dataTypeOptions = response.data.entity))
@@ -160,8 +160,8 @@ export default {
 		},
 		get_unknown_boards: function (){
 			axios
-				.get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+process.env.VUE_APP_BOARDS_END_POINT)
-				.then(response => (this.boards = response.data));
+				.get('http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/unknownboards')
+				.then(response => (this.unknownboards = response.data));
 		},
 		timestamp_to_datetime: function (timestamp){
         let DateObj = new Date(timestamp*1000);
