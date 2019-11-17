@@ -18,6 +18,7 @@
                        :labels="true"
                        height="44"
                        width="100"
+                       font-size="25"
                        @change="switchRelay"
         >
         </toggle-button>
