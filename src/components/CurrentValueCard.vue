@@ -14,7 +14,7 @@
         <h2 v-if="SensorType == 'Relay' && Value.Value==0">TURN OFF</h2>
       </b-card-text>
 
-      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }} </b-card-footer>
+      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}</b-card-footer>
 
     </b-card>
 
@@ -77,7 +77,7 @@ export default {
         switchRelay: function() {
             let url = 'http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/todo';
             let data = {
-                mac : "5c:cf:7f:2f:60:0d",
+                mac : this.board,
                 command : "RELAY",
                 subcommand : "switch",
                 commandhash : "",
