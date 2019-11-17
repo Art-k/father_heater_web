@@ -284,7 +284,7 @@
 									<b-form-input id="IntervalId" v-model="CurrentBoardSettings['Interval']" placeholder="Enter Interval"></b-form-input>
 								</b-form-group>
 
-								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Interval (ms)">
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Delta">
 									<b-form-input id="DeltaId" v-model="CurrentBoardSettings['Delta']" placeholder="Enter Delta"></b-form-input>
 								</b-form-group>
 

@@ -57,6 +57,9 @@
                 <b-button block size="sm" variant="success" @click="row.toggleDetails">
                   {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
                 </b-button>
+                <b-button block size="sm" variant="warning" @click="reset_board(row.item.Mac)">
+
+                </b-button>
               </template>
 
               <template v-slot:row-details="row">
@@ -153,6 +156,18 @@ export default {
 			.then(response => (this.dataTypeOptions = response.data.entity))
 		},
 	methods:{
+		reset_board: function(Mac){
+			let url = 'http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/todo';
+			let data = {
+				mac : Mac,
+				command : "BOARD",
+				subcommand : "reset",
+				commandhash : "",
+				commanddone : false,
+				commandstatus : ""
+			};
+			axios.post(url, data);
+        },
 		get_boards: function (){
 			axios
 				.get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+process.env.VUE_APP_BOARDS_END_POINT)
