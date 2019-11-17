@@ -112,9 +112,9 @@ export default {
                 .then(response => (this.Value = response.data.entity[0]));
 
             if(this.Value['Value'] == 1) {
-                this.Variant = "dark"
-            }else{
                 this.Variant = "success"
+            }else{
+                this.Variant = "dark"
             }
 
             this.RefreshCount ++
