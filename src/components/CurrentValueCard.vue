@@ -6,7 +6,7 @@
             :bg-variant="Variant"
             :title="SensorType"
             align="center"
-            text-variant="white"
+            text-variant="black"
     >
       <b-card-text>
         <!--<h2 v-if="SensorType == 'Relay' && Value.Value==1">TURN ON</h2>-->
