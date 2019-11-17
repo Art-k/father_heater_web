@@ -72,9 +72,25 @@
 
         </b-tab>
 
-      </b-tabs>
-    </b-card>
+        <b-tab title="Unknown Boards">
+          <b-container fluid>
 
+            <b-table
+                    striped
+                    hover
+                    :items="unknownboards.entity"
+                    :fields="unknownfields"
+            >
+
+            </b-table>
+
+          </b-container>
+
+        </b-tab>
+
+      </b-tabs>
+
+    </b-card>
 
   </div>
 </template>
@@ -114,6 +130,14 @@ export default {
 			{ key: 'actions', label: 'Actions' }
 		],
 		boards: {"Entity" : [{"board":"1 sgwrvwrv", "name":"1 wvsetbsrtb", "description":"1 sdfbvdryndtrny"}, {"board":"2 sgwrvwrv", "name":"2 wvsetbsrtb", "description":"2 sdfbvdryndtrny"}]},
+
+        unknownfields : [
+			{ key: 'ID', label: '#', sortable: true, sortDirection: 'desc' },
+			{ key: 'Mac', label: 'MAC', sortable: true },
+			{ key: 'CreatedAt', label: 'Added At', sortable: true },
+			{ key: 'actions', label: 'Actions' }
+		],
+        unknownboards: {"Entity" : [{"board":"1 sgwrvwrv", "name":"1 wvsetbsrtb", "description":"1 sdfbvdryndtrny"}, {"board":"2 sgwrvwrv", "name":"2 wvsetbsrtb", "description":"2 sdfbvdryndtrny"}]},
 		//            dataType: 'temperature',
 		dataTypeOptions: ['no'],
 		new_mac : '',
@@ -130,6 +154,11 @@ export default {
 		},
 	methods:{
 		get_boards: function (){
+			axios
+				.get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+process.env.VUE_APP_BOARDS_END_POINT)
+				.then(response => (this.boards = response.data));
+		},
+		get_unknown_boards: function (){
 			axios
 				.get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+process.env.VUE_APP_BOARDS_END_POINT)
 				.then(response => (this.boards = response.data));
