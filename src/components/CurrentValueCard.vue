@@ -14,7 +14,7 @@
 
         <toggle-button :value="Value.Value"
                        color="#ffcc00"
-                       :sync="false"
+                       :sync="true"
                        :labels="true"
                        height="44"
                        width="120"
@@ -25,7 +25,13 @@
 
       </b-card-text>
 
-      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}</b-card-footer>
+      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+        <toggle-button
+                :value="timerEnabled"
+                @change="EnableDisableTimes"
+        >
+        </toggle-button>
+      </b-card-footer>
 
     </b-card>
 
@@ -39,7 +45,13 @@
         <h2 ><MdThermometerIcon></MdThermometerIcon>{{ Value.Value }} &#8451;</h2>
       </b-card-text>
 
-      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }} </b-card-footer>
+      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}
+        <toggle-button
+                :value="timerEnabled"
+                @change="EnableDisableTimes"
+        >
+        </toggle-button>
+      </b-card-footer>
 
     </b-card>
 
@@ -54,7 +66,13 @@
         <h2>{{ Value.Value }} % </h2>
       </b-card-text>
 
-      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }} </b-card-footer>
+      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}
+        <toggle-button
+                :value="timerEnabled"
+                @change="EnableDisableTimes"
+        >
+        </toggle-button>
+      </b-card-footer>
 
     </b-card>
 
@@ -96,7 +114,8 @@ export default {
       }
     },
     created() {
-//        this.timer = setInterval(this.fetchDataFromServer, 1000)
+//      this.timer = setInterval(this.fetchDataFromServer, 1000);
+      this.timerEnabled = false
     },
     mounted () {
       this.fetchDataFromServer()
@@ -113,15 +132,15 @@ export default {
                 commandstatus : ""
             };
             axios.post(url, data);
-
-//            this.Value['Value'] = !this.Value['Value']
-
-//            if (this.Variant === "dark"){
-//                this.Variant = "success"
-//            }else{
-//                this.Variant = "dark"
-//            }
-
+        },
+        EnableDisableTimes: function(){
+          if (this.timerEnabled){
+            this.timer = setInterval(this.fetchDataFromServer, 1000);
+            this.timerEnabled = true
+          }else{
+            clearInterval(this.timer);
+            this.timerEnabled = false
+          }
         },
         fetchDataFromServer: function () {
             axios
