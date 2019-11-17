@@ -13,7 +13,7 @@
         <h2 v-if="SensorType == 'Relay' && Value.Value==1">TURN ON</h2>
         <h2 v-if="SensorType == 'Relay' && Value.Value==0">TURN OFF</h2>
 
-        <toggle-button
+        <toggle-button :value="Value.Value"
                        color="#82C7EB"
                        :sync="true"
                        :labels="true"
