@@ -13,11 +13,11 @@
         <!--<h2 v-if="SensorType == 'Relay' && Value.Value==0">TURN OFF</h2>-->
 
         <toggle-button :value="Value.Value"
-                       color="{checked: '#ffcc00', unchecked: '#000000', disabled: '#bdbdbd'}"
+                       color="#ffcc00"
                        :sync="false"
                        :labels="true"
                        height="44"
-                       width="150"
+                       width="120"
                        font-size="25"
                        @change="switchRelay"
         >
