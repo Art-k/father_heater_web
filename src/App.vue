@@ -54,12 +54,14 @@
               </template>
 
               <template v-slot:cell(actions)="row">
-                <b-button block size="sm" variant="success" @click="row.toggleDetails">
-                  {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
-                </b-button>
-                <b-button block size="sm" variant="warning" @click="reset_board(row.item.Mac)">
+                <b-button-group>
+                  <b-button block size="sm" variant="success" @click="row.toggleDetails">
+                    {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
+                  </b-button>
+                  <b-button block size="sm" variant="warning" @click="reset_board(row.item.Mac)">
 
-                </b-button>
+                  </b-button>
+                </b-button-group>
               </template>
 
               <template v-slot:row-details="row">
