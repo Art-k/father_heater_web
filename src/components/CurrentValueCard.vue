@@ -26,11 +26,11 @@
       </b-card-text>
 
       <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
-        <toggle-button
-                :value="timerEnabled"
-                @change="EnableDisableTimes"
-        >
-        </toggle-button>
+        <!--<toggle-button-->
+                <!--:value="timerEnabled"-->
+                <!--@change="EnableDisableTimes"-->
+        <!--&gt;-->
+        <!--</toggle-button>-->
       </b-card-footer>
 
     </b-card>
@@ -42,15 +42,17 @@
     >
       <b-card-text>
 
-        <h2 ><MdThermometerIcon></MdThermometerIcon>{{ Value.Value }} &#8451;</h2>
+        <h2 >
+          <!--<MdThermometerIcon></MdThermometerIcon>-->
+          {{ Value.Value }} &#8451;</h2>
       </b-card-text>
 
-      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}
-        <toggle-button
-                :value="timerEnabled"
-                @change="EnableDisableTimes"
-        >
-        </toggle-button>
+      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+        <!--<toggle-button-->
+                <!--:value="timerEnabled"-->
+                <!--@change="EnableDisableTimes"-->
+        <!--&gt;-->
+        <!--</toggle-button>-->
       </b-card-footer>
 
     </b-card>
@@ -66,12 +68,12 @@
         <h2>{{ Value.Value }} % </h2>
       </b-card-text>
 
-      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}
-        <toggle-button
-                :value="timerEnabled"
-                @change="EnableDisableTimes"
-        >
-        </toggle-button>
+      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+        <!--<toggle-button-->
+                <!--:value="timerEnabled"-->
+                <!--@change="EnableDisableTimes"-->
+        <!--&gt;-->
+        <!--</toggle-button>-->
       </b-card-footer>
 
     </b-card>
@@ -87,7 +89,7 @@
 
     import 'bootstrap/dist/css/bootstrap.css'
     import 'bootstrap-vue/dist/bootstrap-vue.css'
-    import MdThermometerIcon from 'vue-ionicons/dist/md-thermometer.vue'
+//    import MdThermometerIcon from 'vue-ionicons/dist/md-thermometer.vue'
 
     import Vue from 'vue'
     Vue.use(BootstrapVue);
@@ -98,9 +100,9 @@
 
 export default {
   name: 'CurrentValueCard',
-    components:{
-        MdThermometerIcon
-    },
+//    components:{
+//        MdThermometerIcon
+//    },
   props: {
       board: String,
       sensorType: String

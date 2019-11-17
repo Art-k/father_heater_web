@@ -401,7 +401,7 @@
 				BoardSettingsperPage:30,
 				BoardSettingspageOptions: [5, 10, 15, 30],
 
-				BoardSettingsTypes: ['DHT11', 'RELAY'],
+				BoardSettingsTypes: ['DHT11', 'RELAY', 'SOIL'],
 				BoardSettingsType: 'DHT11',
 
 				CurrentBoardSettingsType:'',
@@ -430,6 +430,12 @@
 						DefaulState: 'on',
 						SelectedSatte : 'relay',
 						PossibleValues : ['on', 'off']
+					},
+					'SOIL' : {
+						SenseTypes: ['soil'],
+						DefaulState: '',
+						SelectedSatte : 'soil',
+						PossibleValues : []
 					}
 				}
 			}
