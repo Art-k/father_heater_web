@@ -59,7 +59,7 @@
                     {{ row.detailsShowing ? 'Hide' : 'Show' }} Details
                   </b-button>
                   <b-button block size="sm" variant="warning" @click="reset_board(row.item.Mac)">
-
+                    Reset
                   </b-button>
                 </b-button-group>
               </template>
