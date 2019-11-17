@@ -12,6 +12,15 @@
       <b-card-text>
         <h2 v-if="SensorType == 'Relay' && Value.Value==1">TURN ON</h2>
         <h2 v-if="SensorType == 'Relay' && Value.Value==0">TURN OFF</h2>
+
+        <toggle-button
+                       color="#82C7EB"
+                       :sync="true"
+                       :labels="true"
+                       @change="switchRelay"
+        >
+        </toggle-button>
+
       </b-card-text>
 
       <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}</b-card-footer>
@@ -49,6 +58,8 @@
     Vue.use(BootstrapVue);
     Vue.use(ButtonGroupPlugin);
     Vue.config.productionTip = false;
+    import { ToggleButton } from 'vue-js-toggle-button'
+    Vue.component('ToggleButton', ToggleButton);
 
 export default {
   name: 'CurrentValueCard',
