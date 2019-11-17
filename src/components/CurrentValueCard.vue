@@ -77,7 +77,7 @@ export default {
           Value: {},
           SensorType: this.sensorType.charAt(0).toUpperCase() + this.sensorType.slice(1),
           RefreshCount: 0,
-          Variant: "success"
+//          Variant: "success"
       }
     },
     created() {
