@@ -9,15 +9,15 @@
             text-variant="white"
     >
       <b-card-text>
-        <h2 v-if="SensorType == 'Relay' && Value.Value==1">TURN ON</h2>
-        <h2 v-if="SensorType == 'Relay' && Value.Value==0">TURN OFF</h2>
+        <!--<h2 v-if="SensorType == 'Relay' && Value.Value==1">TURN ON</h2>-->
+        <!--<h2 v-if="SensorType == 'Relay' && Value.Value==0">TURN OFF</h2>-->
 
         <toggle-button :value="Value.Value"
-                       color="#82C7EB"
+                       color="{checked: '#ffcc00', unchecked: '#000000', disabled: '#bdbdbd'}"
                        :sync="false"
                        :labels="true"
                        height="44"
-                       width="100"
+                       width="150"
                        font-size="25"
                        @change="switchRelay"
         >
@@ -113,13 +113,13 @@ export default {
                 .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board+'&type='+this.sensorType+'&last=1')
                 .then(response => (this.Value = response.data.entity[0]));
 
-            if(this.Value['Value'] == 1) {
-                this.Variant = "success"
-            }else{
-                this.Variant = "dark"
-            }
+//            if(this.Value['Value'] == 1) {
+//                this.Variant = "success"
+//            }else{
+//                this.Variant = "dark"
+//            }
 
-            this.RefreshCount ++
+//            this.RefreshCount ++
         },
         ISO_to_datetime: function (timestamp){
             let DateObj = new Date(timestamp);
