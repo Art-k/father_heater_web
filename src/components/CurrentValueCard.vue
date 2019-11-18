@@ -14,7 +14,7 @@
 
         <toggle-button :value="Value.Value"
                        color="#ffcc00"
-                       :sync="true"
+                       :sync="false"
                        :labels="true"
                        height="44"
                        width="120"

@@ -57,9 +57,9 @@ export default {
 //              .then(response => (this.values = response.data));
 
         axios
-            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/chart?mac='+this.board)
             .then(response => {
-//                console.log(response.data.entity);
+                console.log(response.data.entity);
                 let array = [];
                   for (let i=0; i < response.data.entity.length; i++){
                       response.data.entity[i]['CreatedAt'] = this.ISO_to_datetime(response.data.entity[i]['CreatedAt']);
