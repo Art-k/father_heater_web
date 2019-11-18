@@ -59,6 +59,7 @@ export default {
         axios
             .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/chart?mac='+this.board)
             .then(response => {
+                console.log(typeof response.data);
                 console.log(response.data.entity);
                 let array = [];
                   for (let i=0; i < response.data.entity.length; i++){
