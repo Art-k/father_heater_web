@@ -1,13 +1,29 @@
 <template>
   <div id="BoardChart">
     <!--{{ chartData }}-->
-
     <b-row>
       <b-col>
-        <date-picker v-model="sdate" :config="options"></date-picker>
+        <b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Type">
+          <b-form-select
+                  v-model="senseType"
+                  id="senseTypeId"
+                  size="sm"
+                  :options="senseTypes"
+          >
+          </b-form-select>
+        </b-form-group>
+      </b-col>
+
+
+      <b-col>
+        <b-form-group label-cols="4" label-cols-lg="4" label-size="sm" label="Date From">
+          <date-picker size="sm" v-model="sdate" :config="options"></date-picker>
+        </b-form-group>
       </b-col>
       <b-col>
+        <b-form-group label-cols="4" label-cols-lg="4" label-size="sm" label="Date To">
         <date-picker v-model="edate" :config="options"></date-picker>
+        </b-form-group>
       </b-col>
       <b-col>
         <b-button block size="sm" variant="warning" @click="get_chart_data()">
@@ -58,6 +74,8 @@ export default {
     data () {
       return {
           values: [],
+          senseType:'',
+          senseTypes:[],
           sdate:'',
           edate:'',
           options: {
@@ -80,7 +98,8 @@ export default {
 //              .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
 //              .then(response => (this.values = response.data));
 
-      this.get_chart_data()
+      this.get_chart_data();
+        this.get_sense_types();
     },
     methods:{
 //        timestamp_to_datetime: function (timestamp){
@@ -89,11 +108,16 @@ export default {
 //            result = ( DateObj.getDate().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate() ) +'.'+DateObj.getMonth()+'.'+DateObj.getFullYear()+' '+DateObj.getHours()+':'+DateObj.getMinutes()+':'+DateObj.getSeconds();
 //            return result
 //        },
+        get_sense_types: function(){
+          axios
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensor_types?mac='+this.board)
+            .then(response => {this.senseTypes = response.data.entity})
+        },
         get_chart_data: function(){
           console.log(this.sdate);
           console.log(this.edate);
           axios
-            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/chart?mac='+this.board+'&start='+this.sdate+'&end='+this.edate+"&type=temperature")
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/chart?mac='+this.board+'&start='+this.sdate+'&end='+this.edate+"&type="+this.senseType)
             .then(response => {
               console.log(typeof response.data);
 //              console.log(response);
