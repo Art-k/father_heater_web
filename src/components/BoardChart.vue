@@ -1,6 +1,21 @@
 <template>
   <div id="BoardChart">
     <!--{{ chartData }}-->
+
+    <b-row>
+      <b-col>
+        <date-picker v-model="sdate" :config="options"></date-picker>
+      </b-col>
+      <b-col>
+        <date-picker v-model="edate" :config="options"></date-picker>
+      </b-col>
+      <b-col>
+        <b-button block size="sm" variant="warning" @click="get_chart_data()">
+          Refresh
+        </b-button>
+      </b-col>
+    </b-row>
+
     <GChart
             type="LineChart"
             :data="chartData"
@@ -18,6 +33,8 @@
 
     import 'bootstrap/dist/css/bootstrap.css'
     import 'bootstrap-vue/dist/bootstrap-vue.css'
+    import datePicker from 'vue-bootstrap-datetimepicker';
+    import 'pc-bootstrap4-datetimepicker/build/css/bootstrap-datetimepicker.css';
 
     import Vue from 'vue'
     Vue.use(BootstrapVue);
@@ -32,7 +49,8 @@
 export default {
   name: 'BoardChart',
   components: {
-      GChart
+      GChart,
+      datePicker
   },
   props: {
       board: String
@@ -40,6 +58,12 @@ export default {
     data () {
       return {
           values: [],
+          sdate:'',
+          edate:'',
+          options: {
+            format: 'YYYY-MM-DD',
+            useCurrent: false,
+          },
           etalonchartData: [["Time", "Value"]],
           chartData:[],
           chartOptions: {
@@ -56,20 +80,7 @@ export default {
 //              .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board)
 //              .then(response => (this.values = response.data));
 
-        axios
-            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/chart?mac='+this.board)
-            .then(response => {
-                console.log(typeof response.data);
-                console.log(response.data.entity);
-                let array = [];
-                  for (let i=0; i < response.data.entity.length; i++){
-                      response.data.entity[i]['CreatedAt'] = this.ISO_to_datetime(response.data.entity[i]['CreatedAt']);
-//                      console.log(response.data.entity[i]);
-                      array.push([response.data.entity[i]['CreatedAt'], response.data.entity[i]['Value']])
-                  }
-                  this.chartData = this.etalonchartData.concat(array);
-                }
-            );
+      this.get_chart_data()
     },
     methods:{
 //        timestamp_to_datetime: function (timestamp){
@@ -78,6 +89,24 @@ export default {
 //            result = ( DateObj.getDate().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate() ) +'.'+DateObj.getMonth()+'.'+DateObj.getFullYear()+' '+DateObj.getHours()+':'+DateObj.getMinutes()+':'+DateObj.getSeconds();
 //            return result
 //        },
+        get_chart_data: function(){
+          console.log(this.sdate);
+          console.log(this.edate);
+          axios
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/chart?mac='+this.board+'&start='+this.sdate+'&end='+this.edate)
+            .then(response => {
+              console.log(typeof response.data);
+              console.log(response.data.entity);
+              let array = [];
+              for (let i=0; i < response.data.entity.length; i++){
+                response.data.entity[i]['CreatedAt'] = this.ISO_to_datetime(response.data.entity[i]['CreatedAt']);
+                //                      console.log(response.data.entity[i]);
+                array.push([response.data.entity[i]['CreatedAt'], response.data.entity[i]['Value']])
+              }
+              this.chartData = this.etalonchartData.concat(array);
+            }
+            );
+        },
         ISO_to_datetime: function (timestamp){
             let DateObj = new Date(timestamp);
             let Day = DateObj.getDate().toString().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate();
@@ -95,18 +124,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
+
 </style>
