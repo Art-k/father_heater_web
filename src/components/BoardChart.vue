@@ -93,18 +93,31 @@ export default {
           console.log(this.sdate);
           console.log(this.edate);
           axios
-            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/chart?mac='+this.board+'&start='+this.sdate+'&end='+this.edate)
+            .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/chart?mac='+this.board+'&start='+this.sdate+'&end='+this.edate+"&type=temperature")
             .then(response => {
               console.log(typeof response.data);
+//              console.log(response);
+              console.log(response.data);
               console.log(response.data.entity);
-              let array = [];
-              for (let i=0; i < response.data.entity.length; i++){
-                response.data.entity[i]['CreatedAt'] = this.ISO_to_datetime(response.data.entity[i]['CreatedAt']);
-                //                      console.log(response.data.entity[i]);
-                array.push([response.data.entity[i]['CreatedAt'], response.data.entity[i]['Value']])
+              let chartdata;
+              if (typeof response.data === 'string') {
+                console.log("response data is string");
+                let chartdataTMP = JSON.parse(response.data);
+                console.log(chartdataTMP);
+                chartdata = chartdataTMP.entity;
+              }else{
+                chartdata = response.data.entity;
               }
-              this.chartData = this.etalonchartData.concat(array);
-            }
+              console.log("Chart Data incoming");
+              console.log(chartdata);
+              let array = [];
+              for (let i=0; i < chartdata.length; i++){
+                chartdata[i]['CreatedAt'] = this.ISO_to_datetime(chartdata[i]['CreatedAt']);
+                //                      console.log(response.data.entity[i]);
+                array.push([chartdata[i]['CreatedAt'], chartdata[i]['Value']])
+              }
+                this.chartData = this.etalonchartData.concat(array);
+              }
             );
         },
         ISO_to_datetime: function (timestamp){
