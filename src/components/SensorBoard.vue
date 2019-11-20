@@ -543,12 +543,13 @@
 			ISO_to_datetime: function (timestamp){
 				let DateObj = new Date(timestamp);
 				let Day = DateObj.getDate().toString().length === 2 ? DateObj.getDate() : '0'+DateObj.getDate();
-				let Month = DateObj.getMonth().toString().length === 2 ? DateObj.getMonth() : '0'+DateObj.getMonth();
+				let Month = DateObj.getMonth().toString().length === 2 ? DateObj.getMonth()+1 : '0'+DateObj.getMonth()+1;
 				let Year = DateObj.getFullYear();
 				let Hours = DateObj.getHours().toString().length === 2 ? DateObj.getHours() : '0'+DateObj.getHours();
 				let Minutes = DateObj.getMinutes().toString().length === 2 ? DateObj.getMinutes() : '0'+DateObj.getMinutes();
 				let Seconds = DateObj.getSeconds().toString().length === 2 ? DateObj.getSeconds() : '0'+DateObj.getSeconds();
 				return Day+'.'+Month+'.'+Year+' '+Hours+':'+Minutes+':'+Seconds;
+
 			}
 		}
 	}
