@@ -425,6 +425,12 @@
 						SelectedSatte : 'temperature',
 						PossibleValues : []
 					},
+					'BME280' : {
+						SenseTypes : ['temperature', 'humidity', 'pressure'],
+						DefaulState : '',
+						SelectedSatte : 'temperature',
+						PossibleValues : []
+					},
 					'RELAY' : {
 						SenseTypes: ['relay'],
 						DefaulState: 'on',
