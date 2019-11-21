@@ -401,7 +401,7 @@
 				BoardSettingsperPage:30,
 				BoardSettingspageOptions: [5, 10, 15, 30],
 
-				BoardSettingsTypes: ['DHT11', 'RELAY', 'SOIL'],
+				BoardSettingsTypes: ['DHT11', 'RELAY', 'SOIL', 'BME280'],
 				BoardSettingsType: 'DHT11',
 
 				CurrentBoardSettingsType:'',
