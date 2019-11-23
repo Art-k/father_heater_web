@@ -100,6 +100,26 @@
 
     </b-card>
 
+    <b-card
+            v-if="SensorType == 'Pressure'"
+            :title="SensorType"
+            align="center"
+    >
+      <b-card-text>
+
+        <h2>{{ Value.Value }} % </h2>
+      </b-card-text>
+
+      <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+        <!--<toggle-button-->
+        <!--:value="timerEnabled"-->
+        <!--@change="EnableDisableTimes"-->
+        <!--&gt;-->
+        <!--</toggle-button>-->
+      </b-card-footer>
+
+    </b-card>
+
 
   </div>
 </template>
