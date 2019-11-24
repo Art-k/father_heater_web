@@ -107,7 +107,7 @@
     >
       <b-card-text>
 
-        <h3>{{ Value.Value }} hPa {{ (Value.Value*100 / 133.322).toFixed(2) }} mm</h3>
+        <h4>{{ Value.Value }} hPa {{ (Value.Value*100 / 133.322).toFixed(2) }} mm</h4>
       </b-card-text>
 
       <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
@@ -158,7 +158,7 @@ export default {
       }
     },
     created() {
-//      this.timer = setInterval(this.fetchDataFromServer, 1000);
+      this.timer = setInterval(this.fetchDataFromServer, 10000);
       this.timerEnabled = false
     },
     mounted () {
