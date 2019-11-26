@@ -107,7 +107,7 @@
     >
       <b-card-text>
 
-        <h4>{{ Value.Value }} hPa {{ (Value.Value*100 / 133.322).toFixed(2) }} mm</h4>
+        <h4>{{ Value.Value.toFixed(2) }} hPa {{ (Value.Value*100 / 133.322).toFixed(2) }} mm</h4>
       </b-card-text>
 
       <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
