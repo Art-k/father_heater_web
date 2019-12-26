@@ -158,8 +158,8 @@ export default {
       }
     },
     created() {
-      // this.timer = setInterval(this.fetchDataFromServer, 10000);
-      // this.timerEnabled = false
+      this.timer = setInterval(this.fetchDataFromServer, 10000);
+      this.timerEnabled = false
     },
     mounted () {
       this.fetchDataFromServer()
