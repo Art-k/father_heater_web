@@ -165,6 +165,14 @@ export default {
       this.fetchDataFromServer()
     },
     methods:{
+
+        timerONOFF: function(mode){
+          if (mode === 1){
+            this.timerEnabled = true
+          } else {
+            this.timerEnabled = false
+          }
+        },
         switchRelay: function() {
             let url = 'http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/todo';
             let data = {
