@@ -167,7 +167,7 @@ export default {
           // } else {
           //   this.timerEnabled = false
           // }
-          console.log(this.timerEnabled)
+          console.log(mode)
         },
         switchRelay: function() {
             let url = 'http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/todo';
