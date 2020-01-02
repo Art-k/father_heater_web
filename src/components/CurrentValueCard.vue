@@ -57,7 +57,6 @@
 
     </b-card>
 
-
     <b-card
             v-if="SensorType == 'Humidity'"
             :title="SensorType"
@@ -77,8 +76,6 @@
       </b-card-footer>
 
     </b-card>
-
-
 
     <b-card
             v-if="SensorType == 'Soil'"
@@ -120,7 +117,6 @@
 
     </b-card>
 
-
   </div>
 </template>
 
@@ -158,20 +154,20 @@ export default {
       }
     },
     created() {
-      this.timer = setInterval(this.fetchDataFromServer, 10000);
-      this.timerEnabled = false
+      // this.timer = setInterval(this.fetchDataFromServer, 10000);
+      // this.timerEnabled = false
     },
     mounted () {
       this.fetchDataFromServer()
     },
     methods:{
-
         timerONOFF: function(mode){
-          if (mode === 1){
-            this.timerEnabled = true
-          } else {
-            this.timerEnabled = false
-          }
+          // if (mode === 1){
+          //   this.timerEnabled = true;
+          // } else {
+          //   this.timerEnabled = false
+          // }
+          console.log(this.timerEnabled)
         },
         switchRelay: function() {
             let url = 'http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/todo';
