@@ -277,7 +277,7 @@ export default {
         process.env.VUE_APP_BOARDS_END_POINT;
 
       console.log(this.form_mode);
-      if (this.form_mode === "POST") {
+      if (this.form_mode !== "PATCH") {
         console.log('We will POST data');
         let data = {
           mac: this.new_mac,
