@@ -7,6 +7,7 @@
             :title="SensorType"
             align="center"
             text-variant="black"
+            v-observe-visibility="visibilityChanged"
     >
       <b-card-text>
         <!--<h2 v-if="SensorType == 'Relay' && Value.Value==1">TURN ON</h2>-->
@@ -39,6 +40,7 @@
             v-if="SensorType == 'Temperature'"
             :title="SensorType"
             align="center"
+            v-observe-visibility="visibilityChanged"
     >
       <b-card-text>
 
@@ -61,6 +63,7 @@
             v-if="SensorType == 'Humidity'"
             :title="SensorType"
             align="center"
+            v-observe-visibility="visibilityChanged"
     >
       <b-card-text>
 
@@ -81,6 +84,7 @@
             v-if="SensorType == 'Soil'"
             :title="SensorType"
             align="center"
+            v-observe-visibility="visibilityChanged"
     >
       <b-card-text>
 
@@ -101,6 +105,7 @@
             v-if="SensorType == 'Pressure'"
             :title="SensorType"
             align="center"
+            v-observe-visibility="visibilityChanged"
     >
       <b-card-text>
 
@@ -154,41 +159,43 @@ export default {
       }
     },
     created() {
-      let interval = 1000;
-      switch (this.sensorType) {
-        case 'relay':
-            interval = 5000;
-          break;
-        case 'temperature':
-            interval = 60000;
-          break;
-        case 'humidity':
-            interval = 600000;
-          break;
-        case 'soil':
-            interval = 3600000;
-          break;
-        case 'pressure':
-            interval = 600000;
-          break;
-        default:
-          interval = 1000;
-      }
-
-      this.timer = setInterval(this.fetchDataFromServer, interval);
+      this.timer = setInterval(this.fetchDataFromServer, this.getDelayInterval());
       this.timerEnabled = false
     },
     mounted () {
       this.fetchDataFromServer()
     },
     methods:{
-        timerONOFF: function(mode){
-          // if (mode === 1){
-          //   this.timerEnabled = true;
-          // } else {
-          //   this.timerEnabled = false
-          // }
-          console.log(mode)
+        getDelayInterval: function(){
+            let interval = 1000;
+            switch (this.sensorType) {
+                case 'relay':
+                    interval = 5000;
+                    break;
+                case 'temperature':
+                    interval = 60000;
+                    break;
+                case 'humidity':
+                    interval = 600000;
+                    break;
+                case 'soil':
+                    interval = 3600000;
+                    break;
+                case 'pressure':
+                    interval = 600000;
+                    break;
+                default:
+                    interval = 1000;
+            }
+            return interval
+        },
+        visibilityChanged: function(isVisible, entry){
+            if (!isVisible) {
+                clearInterval(this.timer);
+            }else{
+                this.timer = setInterval(this.fetchDataFromServer, this.getDelayInterval());
+            }
+            console.log(entry)
         },
         switchRelay: function() {
             let url = 'http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/todo';
