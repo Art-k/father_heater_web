@@ -79,7 +79,6 @@
                   >Edit</b-button>
 
                   <b-button
-                    v-b-modal.add_board
                     size="sm"
                     variant="danger"
                     @click="deleteBoard(row.id)"
