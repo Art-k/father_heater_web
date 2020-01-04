@@ -154,8 +154,29 @@ export default {
       }
     },
     created() {
-      // this.timer = setInterval(this.fetchDataFromServer, 10000);
-      // this.timerEnabled = false
+      let interval = 1000;
+      switch (this.sensorType) {
+        case 'relay':
+            interval = 5000;
+          break;
+        case 'temperature':
+            interval = 60000;
+          break;
+        case 'humidity':
+            interval = 600000;
+          break;
+        case 'soil':
+            interval = 3600000;
+          break;
+        case 'pressure':
+            interval = 600000;
+          break;
+        default:
+          interval = 1000;
+      }
+
+      this.timer = setInterval(this.fetchDataFromServer, interval);
+      this.timerEnabled = false
     },
     mounted () {
       this.fetchDataFromServer()
