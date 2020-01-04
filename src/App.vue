@@ -77,6 +77,13 @@
                     variant="primary"
                     @click="fill_form(row.item)"
                   >Edit</b-button>
+
+                  <b-button
+                    v-b-modal.add_board
+                    size="sm"
+                    variant="danger"
+                    @click="deleteBoard(row.id)"
+                  >Delete</b-button>
                 </b-button-group>
               </template>
 
@@ -233,6 +240,17 @@ export default {
         commandstatus: ""
       };
       axios.post(url, data);
+    },
+    deleteBoard: function(board_id) {
+      let url =
+              process.env.VUE_APP_PROTOCOL +
+              process.env.VUE_APP_HOST +
+              process.env.VUE_APP_PORT1 +
+              process.env.VUE_APP_BOARDS_END_POINT;
+      let data = {
+        id: board_id
+      };
+      axios.delete(url, data);
     },
     get_boards: function() {
       axios
