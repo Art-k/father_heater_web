@@ -4,12 +4,18 @@
       <b-tabs pills>
         <b-tab title="Monitor" active>
           <b-row v-for="item in boards.entity" :key="item.id">
-            <CurrentValue :board="item.Mac"></CurrentValue>
+            <div class="container p-3 my-3">
+
+                <h2>{{ item.Name }}</h2>
+
+                <CurrentValue :board="item.Mac"></CurrentValue>
+
+            </div>
           </b-row>
         </b-tab>
 
         <b-tab title="Details">
-          <b-button v-b-modal.add_board variant="success" @click="form_mode = POST">Add Board</b-button>
+          <b-button class="float-right" v-b-modal.add_board variant="success" @click="form_mode = POST">Add Board</b-button>
 
           <b-modal id="add_board" title="Add new BOARD" @ok="post_board">
             {{ form_mode }}
@@ -81,7 +87,7 @@
                   <b-button
                     size="sm"
                     variant="danger"
-                    @click="deleteBoard(row.id)"
+                    @click="deleteBoard(row.item.ID)"
                   >Delete</b-button>
                 </b-button-group>
               </template>
@@ -246,10 +252,7 @@ export default {
               process.env.VUE_APP_HOST +
               process.env.VUE_APP_PORT1 +
               process.env.VUE_APP_BOARDS_END_POINT;
-      let data = {
-        id: board_id
-      };
-      axios.delete(url, data);
+      axios.delete(url+"?id="+board_id);
     },
     get_boards: function() {
       axios
