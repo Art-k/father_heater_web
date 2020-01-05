@@ -104,7 +104,19 @@
 
         <b-tab title="Unknown Boards">
           <b-container fluid>
-            <b-table striped hover :items="unknownboards.entity" :fields="unknownfields"></b-table>
+            <b-table striped hover :items="unknownboards.entity" :fields="unknownfields">
+
+              <template v-slot:cell(actions)="row">
+                <b-button-group size="sm">
+                  <b-button
+                          size="sm"
+                          variant="danger"
+                          @click="deleteUnknownBoard(row.item.Mac)"
+                  >Delete</b-button>
+                </b-button-group>
+              </template>
+
+            </b-table>
           </b-container>
         </b-tab>
 
@@ -263,6 +275,15 @@ export default {
             process.env.VUE_APP_BOARDS_END_POINT
         )
         .then(response => (this.boards = response.data));
+    },
+    deleteUnknownBoard: function(mac){
+      axios.delete(
+                      "http://" +
+                      process.env.VUE_APP_HOST +
+                      process.env.VUE_APP_PORT1 +
+                      "/unknownboards?mac="+mac
+              );
+      this.get_unknown_boards();
     },
     get_unknown_boards: function() {
       axios
