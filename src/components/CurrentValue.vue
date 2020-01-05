@@ -2,7 +2,7 @@
   <div id="CurrentValue">
         <div class="card-deck">
             <b-col v-for="item in sensorTypes" :key="item">
-              <CurrentValueCard :board="board" :sensorType="item"></CurrentValueCard>
+              <CurrentValueCard v-if="board !==''" :board="board" :sensorType="item"></CurrentValueCard>
             </b-col>
         </div>
 
