@@ -207,6 +207,7 @@ export default {
                 commandstatus : ""
             };
             axios.post(url, data);
+            this.Value.Value = !this.Value.Value
         },
         EnableDisableTimes: function(){
           if (this.timerEnabled){
