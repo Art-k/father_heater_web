@@ -11,9 +11,8 @@
             @click="switchRelay"
     >
       <b-card-text>
-        <h2 v-if="SensorType === 'Relay' && Value.Value===1">TURN ON</h2>
-        <h2 v-if="SensorType === 'Relay' && Value.Value===0">TURN OFF</h2>
-
+        <h2 v-show="Value.Value === 1">TURN ON</h2>
+        <h2 v-show="Value.Value === 0">TURN OFF</h2>
 <!--        <toggle-button :value="Value.Value"-->
 <!--                       color="#ffcc00"-->
 <!--                       :sync="false"-->
@@ -24,7 +23,6 @@
 <!--                       @change="switchRelay"-->
 <!--        >-->
 <!--        </toggle-button>-->
-
       </b-card-text>
 
       <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
