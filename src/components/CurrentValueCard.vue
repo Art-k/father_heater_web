@@ -8,21 +8,22 @@
             align="center"
             text-variant="black"
             v-observe-visibility="visibilityChanged"
+            @click="switchRelay"
     >
       <b-card-text>
-        <!--<h2 v-if="SensorType == 'Relay' && Value.Value==1">TURN ON</h2>-->
-        <!--<h2 v-if="SensorType == 'Relay' && Value.Value==0">TURN OFF</h2>-->
+        <h2 v-if="SensorType === 'Relay' && Value.Value===1">TURN ON</h2>
+        <h2 v-if="SensorType === 'Relay' && Value.Value===0">TURN OFF</h2>
 
-        <toggle-button :value="Value.Value"
-                       color="#ffcc00"
-                       :sync="false"
-                       :labels="true"
-                       height="44"
-                       width="120"
-                       font-size="25"
-                       @change="switchRelay"
-        >
-        </toggle-button>
+<!--        <toggle-button :value="Value.Value"-->
+<!--                       color="#ffcc00"-->
+<!--                       :sync="false"-->
+<!--                       :labels="true"-->
+<!--                       height="44"-->
+<!--                       width="120"-->
+<!--                       font-size="25"-->
+<!--                       @change="switchRelay"-->
+<!--        >-->
+<!--        </toggle-button>-->
 
       </b-card-text>
 
