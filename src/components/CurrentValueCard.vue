@@ -11,7 +11,7 @@
             @click="switchRelay"
     >
       <b-card-text>
-        {{ Direction }}
+<!--        {{Value.Value}}{{ Direction }}-->
         <v-icon v-show="Value.Value === 1" name="power" color="green" width="50px"></v-icon>
         <v-icon v-show="Value.Value === 0" name="power" color="gray" width="50px"></v-icon>
 <!--        <h2 v-show="Value.Value === 1">TURN ON</h2>-->
@@ -157,7 +157,7 @@ export default {
     data () {
       return {
           Value: {},
-        Direction: "nd", // "off"
+          Direction: "nd", // "off"
           SensorType: this.sensorType.charAt(0).toUpperCase() + this.sensorType.slice(1),
           RefreshCount: 0,
 //          Variant: "success"
@@ -204,10 +204,12 @@ export default {
         },
         switchRelay: function() {
 
-            if (this.Value == 0) {
+            if (this.Value === 0 && this.Direction === "off") {
               this.Direction = "to-on"
             } else {
-              this.Direction = "to-off"
+              if (this.Value === 1 && this.Direction === "on") {
+                this.Direction = "to-off"
+              }
             }
 
             let url = 'http://' + process.env.VUE_APP_HOST + process.env.VUE_APP_PORT1 + '/todo';
@@ -236,23 +238,31 @@ export default {
                 .get('http://'+process.env.VUE_APP_HOST+process.env.VUE_APP_PORT1+'/sensors_data?mac='+this.board+'&type='+this.sensorType+'&last=1')
                 .then(response => (this.Value = response.data.entity[0]));
 
-            if (this.Value.Value === 1 && this.Direction === "to-on"){
-              this.Direction = "on"
-            }else{
-              if (this.Value.Value === 1 && this.Direction === "to-off"){
-                this.Direction = "to-off"
+            if (this.Direction === "nd"){
+              if (this.Value.Value === 0){
+                this.Direction = "off"
               }else{
-                if (this.Value.Value === 0 && this.Direction === "to-off"){
-                  this.Direction = "off"
-                }else{
-                  if (this.Value.Value === 0 && this.Direction === "to-on"){
-                    this.Direction = "to-on"
-                  }else{
-                    if (this.Direction === "nd"){
-                      if (this.Value.Value === 0){
+                this.Direction = "on"
+              }
+            }else {
+              if (this.Value.Value === 1 && this.Direction === "to-on") {
+                this.Direction = "on"
+              } else {
+                if (this.Value.Value === 1 && this.Direction === "to-off") {
+                  this.Direction = "to-off"
+                } else {
+                  if (this.Value.Value === 0 && this.Direction === "to-off") {
+                    this.Direction = "off"
+                  } else {
+                    if (this.Value.Value === 0 && this.Direction === "to-on") {
+                      this.Direction = "to-on"
+                    } else {
+                      if (this.Value.Value === 0 && this.Direction === "on") {
                         this.Direction = "off"
-                      }else{
-                        this.Direction = "on"
+                      } else {
+                        if (this.Value.Value === 1 && this.Direction === "off") {
+                          this.Direction = "on"
+                        }
                       }
                     }
                   }
