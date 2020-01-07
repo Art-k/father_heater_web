@@ -1,8 +1,28 @@
 <template>
   <div id="app">
-    <b-card no-body>
+
+      <b-button v-b-modal.modal-signin v-show="user===undefined">Sign In</b-button>
+      <b-modal id="modal-signin" title="Please Sign In!" @ok="set_user">
+          <label for="login">User Name : </label>
+            <b-form-input id="login" v-model="user" placeholder="Enter your login"></b-form-input>
+          <br />
+      </b-modal>
+
+      <b-button v-show="user!==undefined" @click="clear_user">Sign Out</b-button>
+
+    <div class="container p-3 my-3" v-show="user!==undefined">
       <b-tabs pills>
-        <b-tab title="Monitor" active>
+
+          <b-tab v-if="user==='5361' || user==='AHome'" title="Fathenda" active>
+              <b-row v-for="item in boards.entity" :key="item.id">
+                  <div class="container p-3 my-3" v-if="isFather(item.Mac)">
+                      <h2>{{ item.Name }}</h2>
+                      <CurrentValue :board="item.Mac"></CurrentValue>
+                  </div>
+              </b-row>
+          </b-tab>
+
+        <b-tab v-if="user==='AHome'"  title="Monitor" active>
           <b-row v-for="item in boards.entity" :key="item.id">
             <div class="container p-3 my-3">
 
@@ -14,7 +34,7 @@
           </b-row>
         </b-tab>
 
-        <b-tab title="Details">
+        <b-tab v-if="user==='AHome'" title="Details">
           <b-button class="float-right" v-b-modal.add_board variant="success" @click="form_mode = POST">Add Board</b-button>
 
           <b-modal id="add_board" title="Add new BOARD" @ok="post_board">
@@ -102,7 +122,7 @@
           </b-container>
         </b-tab>
 
-        <b-tab title="Unknown Boards">
+        <b-tab v-if="user==='AHome'" title="Unknown Boards">
           <b-container fluid>
             <b-table striped hover :items="unknownboards.entity" :fields="unknownfields">
 
@@ -120,7 +140,7 @@
           </b-container>
         </b-tab>
 
-        <b-tab title="Groups">
+        <b-tab v-if="user==='AHome'" title="Groups">
           <b-container fluid>
             <!-- <b-table
                     striped
@@ -133,7 +153,7 @@
           </b-container>
         </b-tab>
       </b-tabs>
-    </b-card>
+    </div>
   </div>
 </template>
 
@@ -162,7 +182,8 @@ export default {
   },
   data() {
     return {
-      fields: [
+      user : null,
+        fields: [
         { key: "ID", label: "#", sortable: true, sortDirection: "desc" },
         { key: "Mac", label: "MAC", sortable: true },
         { key: "Name", label: "Name", sortable: true },
@@ -220,7 +241,10 @@ export default {
     };
   },
   mounted() {
-    this.get_boards();
+    this.user = localStorage.User;
+
+
+      this.get_boards();
     this.get_unknown_boards();
     axios
       .get(
@@ -235,6 +259,19 @@ export default {
     onRowSelected(items) {
       this.selected = items;
     },
+
+      isFather: function(mac) {
+        let MacArray = ["3c:71:bf:f9:01:b0", "cc:50:e3:95:b2:b4", "cc:50:e3:95:a7:9c", "a4:cf:12:d9:44:07"];
+        return MacArray.indexOf(mac) !== -1;
+      },
+
+      clear_user: function() {
+          localStorage.clear();
+          this.user = undefined
+      },
+      set_user: function () {
+          localStorage.User = this.user
+      },
     fill_form: function(Obj) {
       this.new_mac = Obj.Mac;
       this.new_name = Obj.Name;

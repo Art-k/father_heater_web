@@ -1,13 +1,13 @@
 <template>
   <div id="CurrentValueCard">
 
-    <b-card
+    <div v-if="user==='5361' || user==='AHome'">
+        <b-card
             v-if="SensorType == 'Relay'"
             :bg-variant="Variant"
             :title="SensorType"
             align="center"
             text-variant="black"
-            v-observe-visibility="visibilityChanged"
             @click="switchRelay"
     >
       <b-card-text>
@@ -38,12 +38,15 @@
       </b-card-footer>
 
     </b-card>
+    </div>
 
-    <b-card
+    <div v-if="user==='5361' || user==='AHome'">
+        <b-card
             v-if="SensorType == 'Temperature'"
+            :bg-variant="Variant"
             :title="SensorType"
             align="center"
-            v-observe-visibility="visibilityChanged"
+            text-variant="black"
     >
       <b-card-text>
 
@@ -61,12 +64,13 @@
       </b-card-footer>
 
     </b-card>
+    </div>
 
-    <b-card
+    <div v-if="user==='AHome'">
+        <b-card
             v-if="SensorType == 'Humidity'"
             :title="SensorType"
             align="center"
-            v-observe-visibility="visibilityChanged"
     >
       <b-card-text>
 
@@ -82,12 +86,13 @@
       </b-card-footer>
 
     </b-card>
+    </div>
 
-    <b-card
+    <div v-if="user==='AHome'">
+        <b-card
             v-if="SensorType == 'Soil'"
             :title="SensorType"
             align="center"
-            v-observe-visibility="visibilityChanged"
     >
       <b-card-text>
 
@@ -103,12 +108,13 @@
       </b-card-footer>
 
     </b-card>
+    </div>
 
-    <b-card
+    <div v-if="user==='AHome'">
+        <b-card
             v-if="SensorType == 'Pressure'"
             :title="SensorType"
             align="center"
-            v-observe-visibility="visibilityChanged"
     >
       <b-card-text>
 
@@ -124,6 +130,7 @@
       </b-card-footer>
 
     </b-card>
+    </div>
 
   </div>
 </template>
@@ -135,6 +142,8 @@
 
     import 'bootstrap/dist/css/bootstrap.css'
     import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+    // https://qinshenxue.github.io/vue-icon/
     import feather from 'vue-icon'
     Vue.use(feather, 'v-icon');
 //    import MdThermometerIcon from 'vue-ionicons/dist/md-thermometer.vue'
@@ -157,6 +166,7 @@ export default {
   },
     data () {
       return {
+          user : undefined,
           Value: {},
           Direction: "nd", // "off"
           SensorType: this.sensorType.charAt(0).toUpperCase() + this.sensorType.slice(1),
@@ -169,7 +179,9 @@ export default {
       this.timerEnabled = false
     },
     mounted () {
+        this.user = localStorage.User;
       this.fetchDataFromServer()
+
     },
     methods:{
         getDelayInterval: function(){
