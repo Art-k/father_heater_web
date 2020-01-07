@@ -4,7 +4,6 @@
     <div v-if="user==='5361' || user==='AHome'">
         <b-card
             v-if="SensorType == 'Relay'"
-            :bg-variant="Variant"
             :title="SensorType"
             align="center"
             text-variant="black"
@@ -12,7 +11,7 @@
     >
       <b-card-text>
 <!--        {{Value.Value}}{{ Direction }}-->
-        <v-icon v-show="Value.Value === 1" name="power" color="green" width="50px"></v-icon>
+        <v-icon v-show="Value.Value === 1" name="power" color="red" width="50px"></v-icon>
         <v-icon v-show="Value.Value === 0" name="power" color="gray" width="50px"></v-icon>
         <v-icon v-show="Value.Value === -1" name="power" color="orange" width="50px"></v-icon>
 <!--        <h2 v-show="Value.Value === 1">TURN ON</h2>-->
@@ -171,6 +170,7 @@ export default {
           Direction: "nd", // "off"
           SensorType: this.sensorType.charAt(0).toUpperCase() + this.sensorType.slice(1),
           RefreshCount: 0,
+          Variant : "white"
 //          Variant: "success"
       }
     },
