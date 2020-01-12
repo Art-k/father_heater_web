@@ -298,7 +298,7 @@
 									</b-form-select>
 								</b-form-group>
 
-								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Default Value">
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Do Inverse">
 									<b-form-select
 											v-model="CurrentBoardSettingsDoInverse"
 											id="DoInverse"
