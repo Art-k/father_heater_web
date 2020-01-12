@@ -391,7 +391,7 @@
 						{ key: 'Delta', label: 'Delta', sortable: true},
 						{ key: 'Default', label: 'Default', sortable: true},
 						{ key: 'AdditionalParameters', label: 'AdditionalParameters', sortable: true},
-						{ key: 'RelayInverse', label: 'RelayInverse', sortable: true},
+						{ key: 'DoInverse', label: 'Do Inverse', sortable: true},
 						{ key: 'actions', label: 'Actions'}
 					],
 				BoardSettings: [],
