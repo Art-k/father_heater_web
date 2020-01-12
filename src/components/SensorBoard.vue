@@ -298,6 +298,16 @@
 									</b-form-select>
 								</b-form-group>
 
+								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Default Value">
+									<b-form-select
+											v-model="CurrentBoardSettingsDoInverse"
+											id="DoInverse"
+											size="sm"
+											:options="CurrentBoardSettingsDoInverseInverse"
+									>
+									</b-form-select>
+								</b-form-group>
+
 								<b-form-group label-cols="4" label-cols-lg="2" label-size="sm" label="Aditional JSON" label-for="input-sm">
 									<b-form-textarea
 											id="textarea"
@@ -381,6 +391,7 @@
 						{ key: 'Delta', label: 'Delta', sortable: true},
 						{ key: 'Default', label: 'Default', sortable: true},
 						{ key: 'AdditionalParameters', label: 'AdditionalParameters', sortable: true},
+						{ key: 'RelayInverse', label: 'RelayInverse', sortable: true},
 						{ key: 'actions', label: 'Actions'}
 					],
 				BoardSettings: [],
@@ -409,39 +420,46 @@
 				CurrentBoardSettingsSense:'',
 				CurrentBoardSettingsSenses: [],
 				CurrentBoardSettingsDefault: '',
+				CurrentBoardSettingsDoInverse: '',
 				CurrentBoardSettingsDefaults: [],
+				CurrentBoardSettingsDoInverseInverse: ['no', 'yes'],
 
 				CurrentBoardSettings : {
 					Pin : '',
 					Interval : 0,
 					Delta : 0,
 					Default : '',
-					AdditionalParameter : ''
+					AdditionalParameter : '',
+					DoInverse : ''
 				},
 				SenseSettings: {
 					'DHT11' : {
 						SenseTypes : ['temperature', 'humidity'],
 						DefaulState : '',
 						SelectedSatte : 'temperature',
-						PossibleValues : []
+						PossibleValues : [],
+						DoReverse : ['no', 'yes']
 					},
 					'BME280' : {
 						SenseTypes : ['temperature', 'humidity', 'pressure'],
 						DefaulState : '',
 						SelectedSatte : 'temperature',
-						PossibleValues : []
+						PossibleValues : [],
+						DoReverse : ['no', 'yes']
 					},
 					'RELAY' : {
 						SenseTypes: ['relay'],
 						DefaulState: 'on',
 						SelectedSatte : 'relay',
-						PossibleValues : ['on', 'off']
+						PossibleValues : ['on', 'off'],
+						DoReverse : ['no', 'yes']
 					},
 					'SOIL' : {
 						SenseTypes: ['soil'],
 						DefaulState: '',
 						SelectedSatte : 'soil',
-						PossibleValues : []
+						PossibleValues : [],
+						DoReverse : ['no', 'yes']
 					}
 				}
 			}
@@ -537,7 +555,8 @@
 					Interval: Interval,
 					Delta: Delta,
 					Default: this.CurrentBoardSettingsDefault,
-					AdditionalParameters: this.CurrentBoardSettings['AdditionalParameter']
+					AdditionalParameters: this.CurrentBoardSettings['AdditionalParameter'],
+					DoInverse: this.CurrentBoardSettingsDoInverse
 				};
 				console.log(url);
 				console.log(data);
