@@ -152,6 +152,35 @@
             <!-- </b-table> -->
           </b-container>
         </b-tab>
+
+        <b-tab v-if="user==='AHome'" title="Rules">
+          <b-container fluid>
+            <b-table
+                    striped
+                    hover
+                    :items="Rules.entity"
+                    :fields="rulesfields"
+            >
+              <template v-slot:cell(CreatedAt)="row">
+                {{ row.item.CreatedAt | format_date }}
+              </template>
+
+              <template v-slot:cell(StartsAt)="row">
+                {{ row.item.StartsAt | format_uts_date }}
+              </template>
+
+              <template v-slot:cell(Expires)="row">
+                {{ row.item.Expires | format_uts_date }}
+              </template>
+
+              <template v-slot:cell(RepeatEvery)="row">
+                {{ row.item.RepeatEvery | format_seconds }}
+              </template>
+
+
+            </b-table>
+          </b-container>
+        </b-tab>
       </b-tabs>
     </div>
   </div>
@@ -227,7 +256,47 @@ export default {
           }
         ]
       },
-
+      rulesfields: [
+        { key: "ID", label: "#", sortable: true, sortDirection: "desc" },
+        { key: "ActionMac", label: "MAC", sortable: true },
+        { key: "CreatedAt", label: "Added At", sortable: true },
+        { key: "DoIFTrue", label: "Do IF True", sortable: true },
+        { key: "DoIFFalse", label: "Do IF False", sortable: true },
+        { key: "StartsAt", label: "StartsAt", sortable: true },
+        { key: "RepeatEvery", label: "RepeatEvery", sortable: true },
+        { key: "Expires", label: "Expires", sortable: true },
+        { key: "actions", label: "Actions" }
+      ],
+      Rules : {
+        entity : [
+          {
+            ID: 13,
+            CreatedAt: "2020-01-12T22:53:05.369337854Z",
+            UpdatedAt: "2020-01-12T22:53:05.369337854Z",
+            DeletedAt: null,
+            ActionMac: "a4:cf:12:d9:44:07",
+            DoIFTrue: "on",
+            DoIFFalse: "",
+            StartsAt: 1578864600,
+            RepeatEvery: 86400,
+            Expires: 2525558400,
+            Active: true
+          },
+          {
+            ID: 14,
+            CreatedAt: "2020-01-12T22:53:12.947376535Z",
+            UpdatedAt: "2020-01-12T22:53:12.947376535Z",
+            DeletedAt: null,
+            ActionMac: "a4:cf:12:d9:44:07",
+            DoIFTrue: "on",
+            DoIFFalse: "",
+            StartsAt: 1578868200,
+            RepeatEvery: 86400,
+            Expires: 2525558400,
+            Active: true
+          }
+        ]
+      },
       selectMode: "multi",
       selected: [],
 
