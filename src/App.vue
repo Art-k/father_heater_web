@@ -311,10 +311,10 @@ export default {
   },
   mounted() {
     this.user = localStorage.User;
-
-
-      this.get_boards();
+    this.get_boards();
     this.get_unknown_boards();
+    this.get_rules();
+
     axios
       .get(
         "http://" +
@@ -400,6 +400,16 @@ export default {
             "/unknownboards"
         )
         .then(response => (this.unknownboards = response.data));
+    },
+    get_rules: function() {
+      axios
+        .get(
+          "http://" +
+            process.env.VUE_APP_HOST +
+            process.env.VUE_APP_PORT1 +
+            "/rules"
+        )
+        .then(response => (this.Rules = response.data));
     },
     timestamp_to_datetime: function(timestamp) {
       let DateObj = new Date(timestamp * 1000);
