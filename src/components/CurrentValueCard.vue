@@ -124,11 +124,7 @@
                 </b-card-text>
 
                 <b-card-footer> {{ Value.CreatedAt | format_date }}<br>{{ board }}
-                    <!--<toggle-button-->
-                    <!--:value="timerEnabled"-->
-                    <!--@change="EnableDisableTimes"-->
-                    <!--&gt;-->
-                    <!--</toggle-button>-->
+
                 </b-card-footer>
 
             </b-card>
