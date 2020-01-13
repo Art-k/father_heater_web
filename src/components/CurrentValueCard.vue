@@ -31,7 +31,7 @@
                     <!--        </toggle-button>-->
                 </b-card-text>
 
-                <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+                <b-card-footer> {{ Value.CreatedAt | format_date }}<br>{{ board }}
                     <!--<toggle-button-->
                     <!--:value="timerEnabled"-->
                     <!--@change="EnableDisableTimes"-->
@@ -57,7 +57,7 @@
                         {{ Value.Value }} &#8451;</h2>
                 </b-card-text>
 
-                <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+                <b-card-footer> {{ Value.CreatedAt | format_date }}<br>{{ board }}
                     <!--<toggle-button-->
                     <!--:value="timerEnabled"-->
                     <!--@change="EnableDisableTimes"-->
@@ -79,7 +79,7 @@
                     <h2>{{ Value.Value }} % </h2>
                 </b-card-text>
 
-                <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+                <b-card-footer> {{ Value.CreatedAt | format_date }}<br>{{ board }}
                     <!--<toggle-button-->
                     <!--:value="timerEnabled"-->
                     <!--@change="EnableDisableTimes"-->
@@ -101,7 +101,7 @@
                     <h2>{{ Value.Value }} % </h2>
                 </b-card-text>
 
-                <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+                <b-card-footer> {{ Value.CreatedAt | format_date }}<br>{{ board }}
                     <!--<toggle-button-->
                     <!--:value="timerEnabled"-->
                     <!--@change="EnableDisableTimes"-->
@@ -123,7 +123,7 @@
                     <h4>{{ Value.Value }} hPa <br>{{ (Value.Value*100 / 133.322) }} mm</h4>
                 </b-card-text>
 
-                <b-card-footer> {{ this.ISO_to_datetime( Value.CreatedAt ) }}<br>{{ board }}
+                <b-card-footer> {{ Value.CreatedAt | format_date }}<br>{{ board }}
                     <!--<toggle-button-->
                     <!--:value="timerEnabled"-->
                     <!--@change="EnableDisableTimes"-->
